@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url(../images/Iron-Man-background.jpeg);
+}
+
+#canvas1 {
+  width: 800px;
+  height: 500px;
+  border: 1px solid black;
+  position: absolute;
+  top: 50%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+}
