@@ -16,11 +16,11 @@ const mouse = {
 }
 
 const playerImageRight = new Image();
-playerImageRight.src = '../images/ironmanright.png';
+playerImageRight.src = './images/ironmanright.png';
 const playerImageLeft = new Image();
-playerImageLeft.src = '../images/ironmanleft.png';
+playerImageLeft.src = './images/ironmanleft.png';
 const obstacleImage = new Image();
-obstacleImage.src = '../images/Malcolm.PNG'
+obstacleImage.src = './images/Malcolm.PNG'
 class Player {
   constructor() {
     this.x = canvas.width;
@@ -87,9 +87,9 @@ class Bubble{
 }
 
 const bubblePop1 = document.createElement('audio');
-bubblePop1.src = '../sounds/Plop.ogg';
+bubblePop1.src = './sounds/Plop.ogg';
 const bubblePop2 = document.createElement('audio');
-bubblePop2.src = '../sounds/pop.ogg';
+bubblePop2.src = './sounds/pop.ogg';
 
 function handleBubbles() {
   if (gameFrame % 50 == 0) {
