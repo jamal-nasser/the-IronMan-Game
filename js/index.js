@@ -16,11 +16,11 @@ const mouse = {
   click: false,
 }
 
-let playerImageRight = new Image();
+const playerImageRight = new Image();
 playerImageRight.src = './images/ironmanright.png';
-let playerImageLeft = new Image();
+const playerImageLeft = new Image();
 playerImageLeft.src = './images/ironmanleft.png';
-let power = new Image();
+const power = new Image();
 power.src = './images/light_bulb_05 2.png';
 class Player {
   constructor() {
@@ -55,7 +55,7 @@ class Player {
   }
 }
 
-let player = new Player();
+const player = new Player();
   
 const bubblesArray = [];
 class Bubble{
@@ -115,8 +115,8 @@ function handleBubbles() {
   }
 }
 
-let backgroundImage = new Image();
-backgroundImage.src = '../images/background-image.png';
+const backgroundImage = new Image();
+backgroundImage.src = './images/background-image.png';
 
 const background = {
   x1: 0,
@@ -136,8 +136,8 @@ function makeBackground() {
   ctx.drawImage(backgroundImage, background.x1, background.y, background.width, background.height);
   ctx.drawImage(backgroundImage, background.x2, background.y, background.width, background.height);
 }
-let dangerImage = new Image();
-dangerImage.src = '../images/rocket_red.png';
+const dangerImage = new Image();
+dangerImage.src = './images/rocket_red.png';
 
 class Enemy {
   constructor() {
@@ -169,7 +169,7 @@ class Enemy {
   }
 }
 
-let enemy = new Enemy();
+const enemy = new Enemy();
 function handleDanger() {
   enemy.draw();
   enemy.update();
@@ -216,7 +216,6 @@ window.addEventListener('resize', function () {
 
 
 const startGameButton = document.getElementById('start-button');
-const restartGameButton = document.getElementById('restart-button');
 
 startGameButton.addEventListener('click', () => {
   animate()
