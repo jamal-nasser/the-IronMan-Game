@@ -17,11 +17,11 @@ const mouse = {
 }
 
 let playerImageRight = new Image();
-playerImageRight.src = './images/ironmanright.png';
+playerImageRight.src = '../images/ironmanright.png';
 let playerImageLeft = new Image();
-playerImageLeft.src = './images/ironmanleft.png';
+playerImageLeft.src = '../images/ironmanleft.png'
 let power = new Image();
-power.src = './images/light_bulb_05 2.png'
+power.src = '../images/light_bulb_05 2.png'
 class Player {
   constructor() {
     this.x = canvas.width;
@@ -81,11 +81,11 @@ class Bubble{
 }
 
 const powerCollect1 = document.createElement('audio');
-powerCollect1.src = './sounds/1_Coins 2.ogg';
+powerCollect1.src = '../sounds/1_Coins 2.ogg';
 const powerCollect2 = document.createElement('audio');
-powerCollect2.src = './sounds/5_Coins 2.ogg';
+powerCollect2.src = '../sounds/5_Coins 2.ogg';
 const crashingSound = document.createElement('audio');
-crashingSound.src = './sounds/crashing-sound 2.ogg';
+crashingSound.src = '../sounds/crashing-sound 2.ogg';
 
 function handleBubbles() {
   if (gameFrame % 50 == 0) {
@@ -116,7 +116,7 @@ function handleBubbles() {
 }
 
 let backgroundImage = new Image();
-backgroundImage.src = './images/background-image.png';
+backgroundImage.src = '../images/background-image.png';
 
 const background = {
   x1: 0,
@@ -137,7 +137,7 @@ function makeBackground() {
   ctx.drawImage(backgroundImage, background.x2, background.y, background.width, background.height);
 }
 let dangerImage = new Image();
-dangerImage.src = './images/rocket_red.png';
+dangerImage.src = '../images/rocket_red.png';
 
 class Enemy {
   constructor() {
