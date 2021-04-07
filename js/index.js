@@ -116,7 +116,7 @@ function handleBubbles() {
 }
 
 let backgroundImage = new Image();
-backgroundImage.src = '../images/background-image.png';
+backgroundImage.src = './images/background-image.png';
 
 const background = {
   x1: 0,
@@ -137,7 +137,7 @@ function makeBackground() {
   ctx.drawImage(backgroundImage, background.x2, background.y, background.width, background.height);
 }
 let dangerImage = new Image();
-dangerImage.src = '../images/rocket_red.png';
+dangerImage.src = './images/rocket_red.png';
 
 class Enemy {
   constructor() {
