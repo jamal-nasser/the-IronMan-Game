@@ -15,7 +15,6 @@ body{
   justify-content: space-around;
 }
 .game-intro{
-  /* float: left; */
   padding: 0% 10%;
   display: flex;
   flex-direction: column;
@@ -32,22 +31,17 @@ body{
 }
 .game-intro p{
   font-size: 18px;
-  font-family: "Verdana";
+  font-family: sans-serif;
   color: #FDF403;
-  animation-name: bounce;
-  animation-duration: 5s;
 }
 .game-board{
-  /* float: right; */
   padding: 20px 0;
 }
 #canvas1{
   width: 700px;
   height: 500px;
-  border: 1px solid black;
-  /* margin-top: 100px;
-  margin-left: 100px; */
-  background: linear-gradient(to bottom, red,gold);
+  /* box-shadow: 5px 5px 5px 5px gold;
+  transition: box-shadow 0.3s ease-in-out; */
 }
 
 #start-button{
@@ -72,7 +66,6 @@ body{
     background: gold;
     color: red;
     width: 250px;
-    border: 10px solid #650816;
     box-shadow: 3px 3px 2px rgba(black, 0.15);
   }
 
@@ -81,25 +74,3 @@ body{
   to {color: gold;}
 }
 
-@keyframes bounce {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  30% {
-    transform: translateY(-50%);
-  }
-  50% {
-    transform: translateY(-30%);
-  }
-  70% {
-    transform: translateY(0%);
-    padding-bottom: 7px;
-  }
-
-  100% {
-    transform: translateY(0);
-    padding-bottom: 9px;
-    opacity: 1;
-  }
-}

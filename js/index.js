@@ -3,9 +3,10 @@ const ctx = canvas.getContext('2d');
 canvas.width = 700;
 canvas.height = 500;
 
-let score = 0;
+let energy = 0;
 let gameFrame = 0;
-ctx.font = '50px Georgia';
+ctx.font = '40px Georgia';
+let gameSpeed = 1;
 let gameOver = false;
 
 let canvasPosition = canvas.getBoundingClientRect();
@@ -15,12 +16,12 @@ const mouse = {
   click: false,
 }
 
-const playerImageRight = new Image();
+let playerImageRight = new Image();
 playerImageRight.src = '../images/ironmanright.png';
-const playerImageLeft = new Image();
+let playerImageLeft = new Image();
 playerImageLeft.src = '../images/ironmanleft.png';
-const obstacleImage = new Image();
-obstacleImage.src = '../images/Malcolm.PNG'
+let power = new Image();
+power.src = '../images/energy-image.png'
 class Player {
   constructor() {
     this.x = canvas.width;
@@ -46,13 +47,6 @@ class Player {
     }
   }
   draw() {
-    if (mouse.click) {
-      ctx.lineWidth = 0.2;
-      ctx.beginPath();
-      ctx.moveTo(this.x, this.y);
-      ctx.lineTo(mouse.x, mouse.y);
-      ctx.stroke();
-    }
     if (this.x >= mouse.x) {
       ctx.drawImage(playerImageLeft, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, this.x - 10, this.y - 20, this.spriteWidth, this.spriteHeight);
     } else {
@@ -61,7 +55,7 @@ class Player {
   }
 }
 
-const player = new Player();
+let player = new Player();
   
 const bubblesArray = [];
 class Bubble{
@@ -82,14 +76,16 @@ class Bubble{
   }
   draw() {
     ctx.fillStyle = 'black';
-    ctx.drawImage(obstacleImage, this.x - 20, this.y - 20, 40, 40);
+    ctx.drawImage(power, this.x - 20, this.y - 20, 40, 40);
   }
 }
 
-const bubblePop1 = document.createElement('audio');
-bubblePop1.src = '../sounds/Plop.ogg';
-const bubblePop2 = document.createElement('audio');
-bubblePop2.src = '../sounds/pop.ogg';
+const powerCollect1 = document.createElement('audio');
+powerCollect1.src = '../sounds/1_Coins.ogg';
+const powerCollect2 = document.createElement('audio');
+powerCollect2.src = '../sounds/5_Coins.ogg';
+const crashingSound = document.createElement('audio');
+crashingSound.src = '../sounds/crashing-sound.ogg';
 
 function handleBubbles() {
   if (gameFrame % 50 == 0) {
@@ -104,38 +100,110 @@ function handleBubbles() {
     } else if (bubblesArray[i].distance < bubblesArray[i].radius + player.radius) {
       if (!bubblesArray[i].counted) {
         if (bubblesArray[i].sound == 'sound1') {
-          //bubblePop1.play();
+          powerCollect1.play();
         } else {
-          //bubblePop2.play();
+          powerCollect2.play();
         }
-        score++;
+        energy++;
         bubblesArray[i].counted = true;
         bubblesArray.splice(i, 1);
       }
   }
   }
-  if (score === 10) {
-    handleGameOver();
+  if (energy === 30) {
+    handleMaxEnergy()
   }
 }
 
+let backgroundImage = new Image();
+backgroundImage.src = '../images/background-image.png';
+
+const background = {
+  x1: 0,
+  x2: canvas.width,
+  y: 0,
+  width: canvas.width,
+  height: canvas.height,
+}
+
+
+function makeBackground() {
+  background.x1 -= gameSpeed;
+  if (background.x1 < -background.width + 20) background.x1 = background.width;
+  background.x2 -= gameSpeed;
+  if (background.x2 < -background.width + 20) background.x2 = background.width;
+
+  ctx.drawImage(backgroundImage, background.x1, background.y, background.width, background.height);
+  ctx.drawImage(backgroundImage, background.x2, background.y, background.width, background.height);
+}
+let dangerImage = new Image();
+dangerImage.src = '../images/rocket_red.png';
+
+class Enemy {
+  constructor() {
+    this.x =  Math.random() * canvas.width;
+    this.y = canvas.height + 100;
+    this.radius = 20;
+    this.speed = Math.random() * 2 + 2;
+  }
+  draw() {
+    ctx.drawImage(dangerImage, this.x - 40, this.y - 25, 70, 90)
+  }
+  update() {
+    this.y -= this.speed;
+    if (this.y < 0 - this.radius * 2) {
+      this.x = Math.random() * canvas.width;
+      this.y = this.y = canvas.height + 100;
+      this.speed = Math.random() * 2 + 2;
+    }
+    if (gameFrame % 50 === 0) {
+      this.speed++;
+    }
+    const dx = this.x - player.x;
+    const dy = this.y - player.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance < this.radius + player.radius) {
+      crashingSound.play();
+      handleGameOver();
+    }
+  }
+}
+
+let enemy = new Enemy();
+function handleDanger() {
+  enemy.draw();
+  enemy.update();
+}
+
+function handleMaxEnergy() {
+  // ctx.fillStyle = 'gold';
+  // ctx.fillText(`GOOD job! You are a super Hero You collected ${energy} energies`, 130, 250, 470);
+  alert(`GOOD job! You are a super Hero You collected ${energy} energies`);
+  location.reload();
+  gameOver = true;
+}
+
 function handleGameOver() {
-  ctx.fillStyle = 'black';
-  ctx.fillText('Game over, you reached score ' + score, 130, 250, 500);
+  // ctx.fillStyle = 'red';
+  // ctx.fillText(`Game over! you collected ${energy} points`, 130, 250, 470);
+  alert(`Game over! you collected ${energy} points`);
+  location.reload();
   gameOver = true;
 }
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  makeBackground();
   handleBubbles();
   player.update();
   player.draw();
-  ctx.fillStyle = 'black'
-  ctx.fillText('score: ' + score, 10, 50)
+  handleDanger();
+  ctx.fillStyle = 'gold'
+  ctx.fillText('Energy: ' + energy, 10, 50)
   gameFrame++;
-  if(!gameOver) requestAnimationFrame(animate);
+   if(!gameOver) requestAnimationFrame(animate);
 }
-animate();
+// animate();
 
 canvas.addEventListener('mousedown', function () {
   mouse.click = true;
@@ -149,3 +217,38 @@ canvas.addEventListener('mouseup', function () {
 window.addEventListener('resize', function () {
   canvasPosition = canvas.getBoundingClientRect();
 });
+
+
+const startGameButton = document.getElementById('start-button');
+const restartGameButton = document.getElementById('restart-button');
+
+startGameButton.addEventListener('click', () => {
+  animate()
+});
+
+// restartGameButton.addEventListener('click', () => {
+//   location.reload(true);
+// });
+
+// document.getElementById('start-button').addEventListener("click", function () {
+//   ctx.clearRect(0, 0, canvas.width, canvas.height);
+//     animate();
+//     energy = 0;
+//   });
+
+// function stop() {
+//   if (requestId) {
+//     window.cancelAnimationFrame(animate);
+//     requestId = undefined;
+//   }
+// }
+
+// function again() {
+//   document.getElementById("start-button").addEventListener("click", function restart() {
+//     animate();
+//     energy = 0;
+//     stop();
+//     start();
+//   })
+// }
+// again();
