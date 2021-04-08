@@ -113,7 +113,7 @@ function handleBubbles() {
       }
   }
   }
-  if (energy === 30) {
+  if (energy === 50) {
     handleMaxEnergy()
   }
 }
@@ -159,8 +159,9 @@ this.y -= this.speed;
       this.y = this.y = canvas.height + 100;
       this.speed = Math.random() * 2 + 2;
     }
-    if (gameFrame % 30 === 0) {
+    if (gameFrame % 20 === 0) {
       this.speed++;
+      this.x++;
     }
     const dx = this.x - player.x;
     const dy = this.y - player.y;
@@ -222,7 +223,7 @@ const resetGameButton = document.getElementById('reset-button');
 
 startGameButton.addEventListener('click', () => {
   introMusic.play();
-  introMusic.volume = 0.3;
+  introMusic.volume = 0.2;
   animate();
 },{once:true});
 
