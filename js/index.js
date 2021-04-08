@@ -5,11 +5,12 @@ canvas.height = 500;
 
 let energy = 0;
 let gameFrame = 0;
-ctx.font = '40px Georgia';
+ctx.font = '40px Georgia'
 let gameSpeed = 1;
 let gameOver = false;
 
 let canvasPosition = canvas.getBoundingClientRect();
+
 const mouse = {
   x: canvas.width / 2,
   y: canvas.height / 2,
@@ -35,7 +36,7 @@ class Player {
     this.spriteHeight = 48;
     
   }
-  update() { 
+  update() {
     const dx = this.x - mouse.x;
     const dy = this.y - mouse.y;
 
@@ -86,6 +87,8 @@ const powerCollect2 = document.createElement('audio');
 powerCollect2.src = './sounds/5_Coins 2.ogg';
 const crashingSound = document.createElement('audio');
 crashingSound.src = './sounds/crashing-sound 2.ogg';
+const introMusic = document.createElement('audio');
+introMusic.src = './sounds/Raining Bits.ogg';
 
 function handleBubbles() {
   if (gameFrame % 50 == 0) {
@@ -150,18 +153,19 @@ class Enemy {
     ctx.drawImage(dangerImage, this.x - 40, this.y - 25, 70, 90)
   }
   update() {
-    this.y -= this.speed;
+this.y -= this.speed;
     if (this.y < 0 - this.radius * 2) {
       this.x = Math.random() * canvas.width;
       this.y = this.y = canvas.height + 100;
       this.speed = Math.random() * 2 + 2;
     }
-    if (gameFrame % 50 === 0) {
+    if (gameFrame % 30 === 0) {
       this.speed++;
     }
     const dx = this.x - player.x;
     const dy = this.y - player.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
+    
     if (distance < this.radius + player.radius) {
       crashingSound.play();
       handleGameOver();
@@ -176,14 +180,12 @@ function handleDanger() {
 }
 
 function handleMaxEnergy() {
-  alert(`GOOD job! You are a super Hero You collected ${energy} energies`);
-  location.reload();
+  ctx.fillText(`You Won! You collected enough energy to continue flying`, 50, 250, 550);
   gameOver = true;
 }
 
 function handleGameOver() {
-  alert(`Game over! you collected ${energy} points`);
-  location.reload();
+  ctx.fillText(`Game over! you collected ${energy} points`, 50, 250, 550);
   gameOver = true;
 }
 
@@ -216,7 +218,14 @@ window.addEventListener('resize', function () {
 
 
 const startGameButton = document.getElementById('start-button');
+const resetGameButton = document.getElementById('reset-button');
 
 startGameButton.addEventListener('click', () => {
-  animate()
+  introMusic.play();
+  introMusic.volume = 0.3;
+  animate();
+},{once:true});
+
+resetGameButton.addEventListener('click', () => {
+  location.reload();
 });
